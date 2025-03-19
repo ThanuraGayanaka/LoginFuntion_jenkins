@@ -17,11 +17,11 @@ public class Loginpage {
     private By usernameField = By.xpath("//input[contains(@name,'username')]");
     private By passwordField = By.xpath("//input[@placeholder='Password']");
     private By loginButton = By.xpath("//button[@type='submit']");
-    private By validationMessage = By.xpath("    //p[@class=\"oxd-text oxd-text--p oxd-alert-content-text\"]");
+    private By validationMessage = By.xpath("//p[contains(.,'Invalid credentials')]");
     // Constructor
     public Loginpage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));  // Initialize WebDriverWait
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));  // Initialize WebDriverWait
     }
 
     // Method to enter username
@@ -57,6 +57,8 @@ public class Loginpage {
     }
 
     public String checkUrl(){
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
 
 return wait.until(ExpectedConditions.visibilityOf(driver.findElement(validationMessage))).getText();
