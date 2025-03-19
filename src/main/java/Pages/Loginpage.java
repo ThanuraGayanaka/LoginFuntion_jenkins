@@ -17,7 +17,7 @@ public class Loginpage {
     private By usernameField = By.xpath("//input[contains(@name,'username')]");
     private By passwordField = By.xpath("//input[@placeholder='Password']");
     private By loginButton = By.xpath("//button[@type='submit']");
-
+    private By validationMessage = By.xpath("    //p[@class=\"oxd-text oxd-text--p oxd-alert-content-text\"]");
     // Constructor
     public Loginpage(WebDriver driver) {
         this.driver = driver;
@@ -54,6 +54,14 @@ public class Loginpage {
     // Method to verify successful login (can be improved)
     public boolean isLoginSuccessful() {
         return wait.until(ExpectedConditions.urlContains("dashboard")); // Adjust this URL fragment
+    }
+
+    public String checkUrl(){
+
+
+return wait.until(ExpectedConditions.visibilityOf(driver.findElement(validationMessage))).getText();
+
+
     }
 
 }

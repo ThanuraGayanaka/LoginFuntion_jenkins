@@ -2,57 +2,33 @@ package Testpages;
 
 import BaseTest.BaseTest;
 import Pages.Loginpage;
-
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import utilities.CSVUtility;
-import utilities.ConfigReader;
-
-import java.io.IOException;
+import utilities.LoginDataProvider;
 
 public class LoginTest extends BaseTest {
 
-    @DataProvider(name = "loginData")
-    public Object[][] logindataProvider() throws IOException {
+    @Test(dataProvider = "validLoginData", dataProviderClass = LoginDataProvider.class)
+    public void validLoginTest(String username, String password) {
+        Loginpage loginPage = new Loginpage(driver);
+        loginPage.login(username, password);
 
-        return CSVUtility.readCSV("src/main/resources/testData.csv");
+        Assert.assertTrue(loginPage.isLoginSuccessful(), "Login failed for valid user: " + username);
     }
 
-
-
-    @BeforeTest
-    @Override
-    public void setup() throws InterruptedException {
-        super.setup();
-
-        Thread.sleep(3000);
-    }
-
-@Test(dataProvider = "loginData")
-    public void loginFunction(String username,String password) throws InterruptedException {
-
-        Loginpage loginpage= new Loginpage(driver);
-        loginpage.login(username, password);
-        Thread.sleep(3000);
-
-
-        Assert.assertTrue(
-                loginpage.isLoginSuccessful(),
-                "Login failed for user: " + username);
+    @Test(dataProvider = "invalidLoginData", dataProviderClass = LoginDataProvider.class)
+    public void invalidLoginTest(String username, String password) throws InterruptedException {
+        Loginpage loginPage = new Loginpage(driver);
+        loginPage.login(username, password);
 
 
 
 
-    }
 
+        String actualValidation= loginPage.checkUrl();
+        String expectedvalidation="Invalid credentials";
 
+        Assert.assertEquals(actualValidation,expectedvalidation,"issue in a invalid login ");
 
-    @Test
-    public void testInvalidLogin() {
-        // Test case for invalid login can be added separately if needed.
-        // Example: Provide invalid credentials and assert failure
-    }
-}
+    }}
+
