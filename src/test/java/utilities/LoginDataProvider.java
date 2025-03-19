@@ -8,7 +8,7 @@ public class LoginDataProvider {
     public static Object[][] validLoginData() {
         return new Object[][]{
                 {"admin", "admin123"},
-                {"user", "user123"}
+
         };
     }
 

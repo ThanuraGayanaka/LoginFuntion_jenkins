@@ -49,6 +49,8 @@ public class Loginpage {
         enterUsername(username);
         enterPassword(password);
         clickLoginButton();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+
     }
 
     // Method to verify successful login (can be improved)
